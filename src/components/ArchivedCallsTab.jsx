@@ -1,4 +1,4 @@
-import { Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import AppTable from "./common/AppTable";
 import { formatDateTime, formatTime } from "../utils/format";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import AppButton from "./common/AppButton";
 import AxiosInstance from "../api/AxiosInstance";
 import { toast } from "react-toastify";
+import CallViewDetails from "./CallViewDetails";
 
 const ArchivedCallsTab = () => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -90,7 +91,6 @@ const ArchivedCallsTab = () => {
     };
 
     const handleView = () => {
-        // Use idToDelete to perform the delete action
         console.log(`View item with ID: ${idToView}`);
         // Add your delete logic here
 
@@ -188,11 +188,14 @@ const ArchivedCallsTab = () => {
                 open={openViewDetailsModal}
                 handleToggleModal={() => handleToggleViewDetailsModal(null)}
             >
-                <Typography>openViewDetailsModal</Typography>
-                <Button onClick={handleToggleViewDetailsModal}>Cancel</Button>
-                <Button variant="contained" color="error" onClick={handleView}>
-                    Confirm
-                </Button>
+                <CallViewDetails idToView={idToView} handleView={handleView} />
+
+                {/* <AppButton onClick={handleToggleViewDetailsModal} handleConfirm={handleView}/> */}
+                <AppButton
+                    onClick={handleToggleViewDetailsModal}
+                    cancelTxt="Close"
+                    handleConfirm={null}
+                />
             </AppModal>
         </>
     ) : (

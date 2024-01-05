@@ -5,6 +5,7 @@ const AppButton = ({
     handleConfirm = () => {},
     onClick = () => {},
     deleteTxt = "Delete",
+    cancelTxt = "Cancel",
 }) => {
     return (
         <Box
@@ -16,16 +17,18 @@ const AppButton = ({
             }}
         >
             <Button onClick={onClick} size="small">
-                Cancel
+                {cancelTxt}
             </Button>
-            <Button
-                variant="contained"
-                color="error"
-                size="small"
-                onClick={handleConfirm}
-            >
-                {deleteTxt}
-            </Button>
+            {handleConfirm && (
+                <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    onClick={handleConfirm}
+                >
+                    {deleteTxt}
+                </Button>
+            )}
         </Box>
     );
 };
@@ -34,5 +37,6 @@ AppButton.propTypes = {
     onClick: PropTypes.func,
     handleConfirm: PropTypes.func,
     deleteTxt: PropTypes.string,
+    cancelTxt: PropTypes.string,
 };
 export default AppButton;
