@@ -54,7 +54,7 @@ const ArchivedCallsTab = () => {
             if (response && response?.data) {
                 const res = response.data;
                 console.log({ res });
-                toast("Moved to calls successfully!", {
+                toast("Archived call successfully!", {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,

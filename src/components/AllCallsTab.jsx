@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import AppTable from "./common/AppTable";
 import { formatDateTime, formatTime } from "../utils/format";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -91,6 +91,54 @@ const AllCallsTab = () => {
             });
         }
     };
+
+    const archivedAllCalls = async () => {
+        try {
+            if (archivedData?.length > 0) {
+                for (let i = 0; i < archivedData?.length; i++) {
+                    const callId = archivedData[i].id;
+                    console.log({ callId });
+
+                    const response = await AxiosInstance.patch(
+                        `/activities/${callId}`,
+                        {
+                            is_archived: true,
+                        }
+                    );
+
+                    console.log("Response in all calls tab", response);
+                    toast("Archieved calls successfully!", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+
+                await fetchAllCalls();
+            }
+        } catch (error) {
+            console.error("Error fetching details:", error);
+
+            toast.error(error?.message || "500 Server Error", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
+            fetchAllCalls();
+        }
+    };
+
     const handleDelete = async () => {
         console.log(`Deleting item with ID: ${idToDelete}`);
         // Add your delete logic here
@@ -175,6 +223,17 @@ const AllCallsTab = () => {
 
     return archivedData?.length > 0 ? (
         <>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                    paddingBottom: "1rem",
+                }}
+            >
+                <Button onClick={() => archivedAllCalls()}>
+                    Archived all calls
+                </Button>
+            </Box>
             <AppTable
                 columns={columns}
                 key={"archived_calls"}
